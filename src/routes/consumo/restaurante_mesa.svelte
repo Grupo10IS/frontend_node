@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 
-    // @ts-ignore
-    export let callback;
+	// @ts-ignore
+	export let callback;
 
 	// @ts-ignore
 	let restaurants = [];
@@ -43,16 +43,16 @@
 	function handleTableClick(tableId) {
 		// Aquí puedes implementar la lógica que quieras ejecutar cuando se hace clic en una mesa
 		console.log(`Mesa ${tableId} fue seleccionada`);
-        callback(tableId)
+		callback(tableId);
 	}
 
-// @ts-ignore
-		$: if (selectedRestaurantId) {
+	// @ts-ignore
+	$: if (selectedRestaurantId) {
 		currentRestaurantId = selectedRestaurantId;
 		fetchTables();
 	} else {
-        tables = []
-    }
+		tables = [];
+	}
 
 	onMount(() => {
 		fetchRestaurants();
@@ -80,3 +80,55 @@
 {:else}
 	<p>No hay mesas disponibles para el restaurante seleccionado.</p>
 {/if}
+
+<style>
+	body {
+		font-family: Arial, sans-serif;
+	}
+
+	select {
+		width: 100%;
+		padding: 8px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		appearance: none;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+	}
+
+	option {
+		padding: 6px 12px;
+	}
+
+	h2 {
+		color: #333;
+		margin-bottom: 10px;
+	}
+
+	ul {
+		list-style-type: none;
+		padding-left: 0;
+	}
+
+	li {
+		margin-bottom: 10px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+	}
+
+	button {
+		width: 100%;
+		padding: 8px;
+		border: none;
+		border-radius: 4px;
+		background-color: #007bff;
+		color: white;
+		cursor: pointer;
+		font-size: 16px;
+	}
+
+	button:hover {
+		background-color: #0056b3;
+	}
+</style>
