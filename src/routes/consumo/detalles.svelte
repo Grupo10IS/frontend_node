@@ -56,26 +56,46 @@
 	onMount(() => {
 		fetchConsumptionDetails();
 	});
+
+	import jsPDF from 'jspdf';
+	import html2canvas from 'html2canvas';
+
+	let elementToConvert;
+
+	async function generatePdf() {
+		const canvas = await html2canvas(elementToConvert);
+		const imgData = canvas.toDataURL('image/png');
+
+		const doc = new jsPDF();
+		doc.addImage(imgData, 'PNG', 10, 10);
+		doc.save('download.pdf');
+	}
 </script>
 
-<h2>Detalles de Consumición</h2>
-<ul>
-	{#each consumptionDetails as detail}
-		<li>
-			<strong>Producto ID:</strong>
-			{detail.producto}<br />
-			<strong>Detalles:</strong>
-			<ul>
-				<li>Descripción: {detail.info ? detail.info.name : 'No disponible'}</li>
-				<li>Precio: {detail.info ? detail.info.precio : 'No disponible'}</li>
-			</ul>
-			<strong>Cantidad:</strong>
-			{detail.cantidad}<br />
-		</li>
-	{/each}
-</ul>
+<div bind:this={elementToConvert}>
+	<div>
+		<h2>Detalles de Consumición</h2>
+		<ul>
+			{#each consumptionDetails as detail}
+				<li>
+					<strong>Producto ID:</strong>
+					{detail.producto}<br />
+					<strong>Detalles:</strong>
+					<ul>
+						<li>Descripción: {detail.info ? detail.info.name : 'No disponible'}</li>
+						<li>Precio: {detail.info ? detail.info.precio : 'No disponible'}</li>
+					</ul>
+					<strong>Cantidad:</strong>
+					{detail.cantidad}<br />
+				</li>
+			{/each}
+		</ul>
+		Total: {totalSum}
 
-<h3>Total: {totalSum}</h3>
+		<br />
+		<button on:click={generatePdf}>Generar PDF</button>
+	</div>
+</div>
 
 <style>
 	body {
